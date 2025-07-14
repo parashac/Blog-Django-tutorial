@@ -6,12 +6,12 @@
         <div class ="post">
             <div class="date">{{ post.published_at }}</div>
             <h1>
-                <a href="#" class="text-decoration-none fst-italic">{{post.title }}</a>
+                <a href="{% url 'post-detail' post.pk %}" class="text-decoration-none fst-italic">{{post.title }}</a>
             </h1>
             <div class="date author"> @{{ post.author.username }}</div>
             <p>
                 {{ post.content|truncatechars:200 }}
-                <a href="#">view more</a>
+                <a href="{% url 'post-detail' post.pk %}">view more</a>
             </p>
         </div>
         {% endfor %}
