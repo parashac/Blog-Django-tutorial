@@ -5,7 +5,7 @@ from blog_app.forms import PostForm
 
 # Create your views here.
 def post_list(request):
-    posts = Post.objects.filter(published_at__isnull=False)
+    posts = Post.objects.filter(published_at__isnull=False).order_by("-published_at")
     return render(request, "post_list.html",{"posts": posts})
 def post_detail(request, pk):
     post =Post.objects.get(pk=pk)
@@ -62,3 +62,12 @@ def draft_publish(request, pk):
     post.published_at = timezone.now()
     post.save()
     return redirect("post-list")
+
+@login_required
+def post_delete(request, pk):
+    post= Post.objects.get(pk=pk)
+    post.delete()
+    if post.published_at:
+        return redirect("post-list")
+    else:
+        return redirect("draft-list")
