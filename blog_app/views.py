@@ -43,10 +43,11 @@ def post_update(request, pk):
         form = PostForm(instance=post)
         return render(request, "post_create.html", {"form": form})
     else:
+        post= Post.objects.get(pk=pk)
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post=form.save()
-            if post.publushed_at:
+            if post.published_at:
                 return redirect("post-detail", post.pk)
             else:
                 return redirect("draft-detail", post.pk)
