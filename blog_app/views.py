@@ -53,3 +53,12 @@ def post_update(request, pk):
                 return redirect("draft-detail", post.pk)
         else:
             return render(request, "post_create.html", {"form": form})
+
+from django.utils import timezone
+
+@login_required
+def draft_publish(request, pk):
+    post = Post.objects.get(pk= pk, published_at__isnull=True)
+    post.published_at = timezone.now()
+    post.save()
+    return redirect("post-list")
